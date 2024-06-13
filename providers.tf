@@ -22,5 +22,5 @@ provider "consul" {
   address    = "${local.consul_dns}:8500"
   datacenter = "my-dc-1"
   #token      = modaws_secretsmanager_secret.bootstrap_token.value
-  token = "752065f7-56fc-b52d-977b-79f7a220aadd"
+  token = var.consul_bootstrap_token
 }
