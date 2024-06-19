@@ -1,20 +1,5 @@
-# API gateway's config entry - API Gateway Listener
-resource "consul_config_entry" "api_gateway_proxy_defaults" {
-  depends_on = [module.api_gateway]
-  kind       = "proxy-defaults"
-  name       = "global"
-  provider   = consul.my-dc-1-cluster
 
-  config_json = jsonencode({
-    Config = [{
-      protocol = "http"
-      }
-    ]
-  })
-}
-
-
-# API gateway's config entry - HTTP Route
+# API gateway's config entry - HTTP Route (API gateway path / --> service-b)
 resource "consul_config_entry" "http_route" {
   depends_on = [consul_config_entry.api_gateway_listener]
   name       = "${var.name}-http-route"
@@ -44,7 +29,7 @@ resource "consul_config_entry" "http_route" {
         ]
         Services = [
           {
-            Name   = "frontend"
+            Name   = "service-b"
             Weight = 1
             Filters = {
             }

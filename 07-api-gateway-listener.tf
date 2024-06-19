@@ -16,3 +16,20 @@ resource "consul_config_entry" "api_gateway_listener" {
     ]
   })
 }
+
+# Set proxy defaults to protocol = http
+resource "consul_config_entry" "api_gateway_proxy_defaults" {
+  depends_on = [module.api_gateway]
+  kind       = "proxy-defaults"
+  name       = "global"
+  provider   = consul.my-dc-1-cluster
+
+  config_json = jsonencode({
+    Config = [{
+      protocol = "http"
+      }
+    ]
+  })
+}
+
+
